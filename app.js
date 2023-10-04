@@ -1,17 +1,20 @@
-// 서버 만들기
-
 const http = require('http');
-//이미 모듈이 깔려 있다는 전제로 작성.
+const fs = require('fs');
+//require 요구하는 매서드
 
-http.createServer(function(request, response){
-let writeHeadObject = {
-  'Content-Type': 'application/json'
-}
+http.createServer(function(request, response) {
+  console.log(request.method);
+  console.log(request.url);
 
+  let writeHeadObject = {
+    'Content-Type' : 'text/html'
+  }
   response.writeHead(200, writeHeadObject);
-  response.end("hello")
-
-
+  fs.readFile("./index.html", function(err, data) {
+    if (err) {
+      console.error('파일을 읽지 못했습니다.');
+    } else {
+      response.end(data);
+    }
+  })
 }).listen(8080);
-//매개변수는 콜백 함수만 받는다. 읽기 좋게 구분해서 써주도록 하자.
-
